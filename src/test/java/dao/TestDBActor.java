@@ -9,6 +9,7 @@ public class TestDBActor {
 
     @Test
     public void getAllFilmsTest() {
+
         ActorDAO actorDAO = new ActorDAO();
         System.out.println(actorDAO.getAll());
     }

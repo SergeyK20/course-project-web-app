@@ -1,7 +1,6 @@
 package dao;
 
 import entity.Actor;
-import entity.Genre;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
