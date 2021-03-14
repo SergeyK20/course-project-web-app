@@ -3,8 +3,5 @@
 <html>
 <body>
 <h2>Hello World!</h2>
-<form action="/film" method="GET">
-    <button type="submit">Нажми на меня</button>
-</form>
 </body>
 </html>
