@@ -1,3 +1,5 @@
+package dao;
+
 import dao.FilmDAO;
 import entity.Film;
 import org.junit.Test;

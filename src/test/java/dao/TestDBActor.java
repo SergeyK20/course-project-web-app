@@ -1,3 +1,5 @@
+package dao;
+
 import dao.ActorDAO;
 import entity.Actor;
 import org.junit.Test;
