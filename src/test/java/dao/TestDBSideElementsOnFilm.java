@@ -22,6 +22,19 @@ public class TestDBSideElementsOnFilm {
         }
     }
 
+    @Test
+    public void deleteSideInFilm() {
+        FilmDAO filmDAO = new FilmDAO();
+        ActorDAO actorDAO = new ActorDAO();
+        SideElementsInFilmDAO sideElementsInFilmDAO = new SideElementsInFilmDAO();
+
+        Film film = filmDAO.getById(2L);
+        Actor actor = actorDAO.getById(15L);
+        System.out.println(film.getActors().size());
+        sideElementsInFilmDAO.remove(film, actor);
+        System.out.println(film.getActors().size());
+    }
+
     //соххраняется только со стороны фильма
     @Test
     public void saveSideInFilm() {
@@ -35,18 +48,5 @@ public class TestDBSideElementsOnFilm {
         sideElementsInFilmDAO.add(film, actor);
         //film.addActor(actor);
         System.out.println(filmDAO.getById(2L).getActors().size());
-    }
-
-    @Test
-    public void deleteSideInFilm() {
-        FilmDAO filmDAO = new FilmDAO();
-        ActorDAO actorDAO = new ActorDAO();
-        SideElementsInFilmDAO sideElementsInFilmDAO = new SideElementsInFilmDAO();
-
-        Film film = filmDAO.getById(2L);
-        Actor actor = actorDAO.getById(38L);
-        System.out.println(film.getActors().size());
-        sideElementsInFilmDAO.remove(film, actor);
-        System.out.println(film.getActors().size());
     }
 }
