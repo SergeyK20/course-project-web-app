@@ -39,10 +39,6 @@ public class Actor implements Serializable, InterfaceSideElement {
         return idActor;
     }
 
-    public void setIdActor(long idActor) {
-        this.idActor = idActor;
-    }
-
     public String getNameActor() {
         return nameActor;
     }

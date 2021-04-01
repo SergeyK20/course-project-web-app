@@ -23,7 +23,7 @@ public class TestDBSideElementsOnFilm {
     }
 
     @Test
-    public void deleteSideInFilm() {
+    public void deleteSideInFilm() throws Exception {
         FilmDAO filmDAO = new FilmDAO();
         ActorDAO actorDAO = new ActorDAO();
         SideElementsInFilmDAO sideElementsInFilmDAO = new SideElementsInFilmDAO();
@@ -37,7 +37,7 @@ public class TestDBSideElementsOnFilm {
 
     //соххраняется только со стороны фильма
     @Test
-    public void saveSideInFilm() {
+    public void saveSideInFilm() throws Exception {
         FilmDAO filmDAO = new FilmDAO();
         ActorDAO actorDAO = new ActorDAO();
         SideElementsInFilmDAO sideElementsInFilmDAO = new SideElementsInFilmDAO();

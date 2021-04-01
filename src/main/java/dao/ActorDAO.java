@@ -12,27 +12,26 @@ import java.util.List;
 public class ActorDAO implements DAO<Long, Actor> {
 
     @Override
-    public List<Actor> getAll() {
+    public List<Actor> getAll() throws Exception {
         try (Session session = HibernateUntil.getSessionFactory().openSession()) {
             String query = "FROM Actor";
             return session.createQuery(query, Actor.class).getResultList();
         } catch (HibernateException e) {
-            System.out.println(e.getMessage());
-            return null;
+            throw new Exception(e.getMessage());
         }
     }
 
     @Override
-    public void save(Actor actor) {
+    public Long save(Actor actor) throws Exception {
         try (Session session = HibernateUntil.getSessionFactory().openSession()) {
-            session.save(actor);
+            return (Long) session.save(actor);
         } catch (HibernateException e) {
-            System.out.println(e.getMessage());
+            throw new Exception(e.getMessage());
         }
     }
 
     @Override
-    public void update(Actor actor) {
+    public void update(Actor actor) throws Exception {
         Transaction transaction = null;
         try (Session session = HibernateUntil.getSessionFactory().openSession()) {
             transaction = session.getTransaction();
@@ -43,12 +42,12 @@ public class ActorDAO implements DAO<Long, Actor> {
             if (transaction != null) {
                 transaction.rollback();
             }
-            System.out.println(e.getMessage());
+            throw new Exception(e.getMessage());
         }
     }
 
     @Override
-    public void delete(Actor actor) {
+    public void delete(Actor actor) throws Exception {
         Transaction transaction = null;
         try (Session session = HibernateUntil.getSessionFactory().openSession()) {
             transaction = session.getTransaction();
@@ -60,12 +59,12 @@ public class ActorDAO implements DAO<Long, Actor> {
             if (transaction != null) {
                 transaction.rollback();
             }
-            System.out.println(e.getMessage());
+            throw new Exception(e.getMessage());
         }
     }
 
     @Override
-    public Actor getById(Long id) {
+    public Actor getById(Long id) throws Exception {
         Transaction transaction = null;
         try (Session session = HibernateUntil.getSessionFactory().openSession()) {
             transaction = session.getTransaction();
@@ -78,8 +77,7 @@ public class ActorDAO implements DAO<Long, Actor> {
             if (transaction != null) {
                 transaction.rollback();
             }
-            System.out.println(e.getMessage());
-            return null;
+            throw new Exception(e.getMessage());
         }
     }
 }

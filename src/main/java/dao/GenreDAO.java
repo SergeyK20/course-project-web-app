@@ -11,27 +11,26 @@ import java.util.List;
 
 public class GenreDAO implements DAO<Long, Genre> {
     @Override
-    public List<Genre> getAll() {
+    public List<Genre> getAll() throws Exception {
         try (Session session = HibernateUntil.getSessionFactory().openSession()) {
             String query = "FROM Genre";
             return session.createQuery(query, Genre.class).getResultList();
         } catch (HibernateException e) {
-            System.out.println(e.getMessage());
-            return null;
+            throw new Exception(e.getMessage());
         }
     }
 
     @Override
-    public void save(Genre genre) {
+    public Long save(Genre genre) throws Exception {
         try (Session session = HibernateUntil.getSessionFactory().openSession()) {
-            session.save(genre);
+            return (Long) session.save(genre);
         } catch (HibernateException e) {
-            System.out.println(e.getMessage());
+            throw new Exception(e.getMessage());
         }
     }
 
     @Override
-    public void update(Genre genre) {
+    public void update(Genre genre) throws Exception {
         Transaction transaction = null;
         try (Session session = HibernateUntil.getSessionFactory().openSession()) {
             transaction = session.getTransaction();
@@ -42,12 +41,12 @@ public class GenreDAO implements DAO<Long, Genre> {
             if (transaction != null) {
                 transaction.rollback();
             }
-            System.out.println(e.getMessage());
+            throw new Exception(e.getMessage());
         }
     }
 
     @Override
-    public void delete(Genre genre) {
+    public void delete(Genre genre) throws Exception {
         Transaction transaction = null;
         try (Session session = HibernateUntil.getSessionFactory().openSession()) {
             transaction = session.getTransaction();
@@ -59,12 +58,12 @@ public class GenreDAO implements DAO<Long, Genre> {
             if (transaction != null) {
                 transaction.rollback();
             }
-            System.out.println(e.getMessage());
+            throw new Exception(e.getMessage());
         }
     }
 
     @Override
-    public Genre getById(Long id) {
+    public Genre getById(Long id) throws Exception {
         Transaction transaction = null;
         try (Session session = HibernateUntil.getSessionFactory().openSession()) {
             transaction = session.getTransaction();
@@ -77,8 +76,7 @@ public class GenreDAO implements DAO<Long, Genre> {
             if (transaction != null) {
                 transaction.rollback();
             }
-            System.out.println(e.getMessage());
-            return null;
+            throw new Exception(e.getMessage());
         }
     }
 }

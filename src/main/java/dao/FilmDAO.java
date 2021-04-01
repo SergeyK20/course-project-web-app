@@ -1,7 +1,8 @@
 package dao;
 
-import entity.Actor;
+import entity.Country;
 import entity.Film;
+import entity.Genre;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -12,27 +13,26 @@ import java.util.List;
 public class FilmDAO implements DAO<Long, Film> {
 
     @Override
-    public List<Film> getAll() {
+    public List<Film> getAll() throws Exception {
         try (Session session = HibernateUntil.getSessionFactory().openSession()) {
             String query = "FROM Film";
             return session.createQuery(query, Film.class).getResultList();
         } catch (HibernateException e) {
-            System.out.println(e.getMessage());
-            return null;
+            throw new Exception(e.getMessage());
         }
     }
 
     @Override
-    public void save(Film film) {
+    public Long save(Film film) throws Exception {
         try (Session session = HibernateUntil.getSessionFactory().openSession()) {
-            session.save(film);
+            return (Long) session.save(film);
         } catch (HibernateException e) {
-            System.out.println(e.getMessage());
+            throw new Exception(e.getMessage());
         }
     }
 
     @Override
-    public void update(Film film) {
+    public void update(Film film) throws Exception {
         Transaction transaction = null;
         try (Session session = HibernateUntil.getSessionFactory().openSession()) {
             transaction = session.getTransaction();
@@ -43,12 +43,12 @@ public class FilmDAO implements DAO<Long, Film> {
             if (transaction != null) {
                 transaction.rollback();
             }
-            System.out.println(e.getMessage());
+            throw new Exception(e.getMessage());
         }
     }
 
     @Override
-    public void delete(Film film) {
+    public void delete(Film film) throws Exception {
         Transaction transaction = null;
         try (Session session = HibernateUntil.getSessionFactory().openSession()) {
             transaction = session.getTransaction();
@@ -60,12 +60,12 @@ public class FilmDAO implements DAO<Long, Film> {
             if (transaction != null) {
                 transaction.rollback();
             }
-            System.out.println(e.getMessage());
+            throw new Exception(e.getMessage());
         }
     }
 
     @Override
-    public Film getById(Long id) {
+    public Film getById(Long id) throws Exception {
         Transaction transaction = null;
         try (Session session = HibernateUntil.getSessionFactory().openSession()) {
             transaction = session.getTransaction();
@@ -78,8 +78,37 @@ public class FilmDAO implements DAO<Long, Film> {
             if (transaction != null) {
                 transaction.rollback();
             }
-            System.out.println(e.getMessage());
-            return null;
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    public List<Film> findFilmsByGenre(Genre genre) throws Exception {
+        try (Session session = HibernateUntil.getSessionFactory().openSession()) {
+            List<Film> film = session.createQuery("SELECT f FROM Film f inner join f.genres g WHERE g.idGenre = ?1", Film.class).
+                    setParameter(1, genre.getIdGenre()).getResultList();
+            return film;
+        } catch (HibernateException e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    public List<Film> findFilmsByCountry(Country country) throws Exception {
+        try (Session session = HibernateUntil.getSessionFactory().openSession()) {
+            List<Film> film = session.createQuery("SELECT f FROM Film f inner join f.countries c WHERE c.idCountry = ?1", Film.class).
+                    setParameter(1, country.getIdCountry()).getResultList();
+            return film;
+        } catch (HibernateException e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    public List<Film> findFilmsByCountryAndGenre(Country country, Genre genre) throws Exception {
+        try (Session session = HibernateUntil.getSessionFactory().openSession()) {
+            List<Film> film = session.createQuery("SELECT f FROM Film f inner join f.countries c inner join f.genres g WHERE c.idCountry = ?1 and g.idGenre = ?2", Film.class).
+                    setParameter(1, country.getIdCountry()).setParameter(2, genre.getIdGenre()).getResultList();
+            return film;
+        } catch (HibernateException e) {
+            throw new Exception(e.getMessage());
         }
     }
 }

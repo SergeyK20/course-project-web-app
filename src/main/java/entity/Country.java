@@ -13,7 +13,7 @@ public class Country implements Serializable, InterfaceSideElement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
     @Column(name = "ID_COUNTRY")
-    private long idCountry;
+    private Long idCountry;
 
     @NotNull
     @Column(name = "NAME_COUNTRY")
@@ -30,11 +30,11 @@ public class Country implements Serializable, InterfaceSideElement {
         this.films = films;
     }
 
-    public long getIdCountry() {
+    public Long getIdCountry() {
         return idCountry;
     }
 
-    public void setIdCountry(long idCountry) {
+    public void setIdCountry(Long idCountry) {
         this.idCountry = idCountry;
     }
 

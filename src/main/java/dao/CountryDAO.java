@@ -11,27 +11,26 @@ import java.util.List;
 
 public class CountryDAO implements DAO<Long, Country> {
     @Override
-    public List<Country> getAll() {
+    public List<Country> getAll() throws Exception {
         try (Session session = HibernateUntil.getSessionFactory().openSession()) {
             String query = "FROM Country";
             return session.createQuery(query, Country.class).getResultList();
         } catch (HibernateException e) {
-            System.out.println(e.getMessage());
-            return null;
+            throw new Exception(e.getMessage());
         }
     }
 
     @Override
-    public void save(Country country) {
+    public Long save(Country country) throws Exception {
         try (Session session = HibernateUntil.getSessionFactory().openSession()) {
-            session.save(country);
+            return (Long) session.save(country);
         } catch (HibernateException e) {
-            System.out.println(e.getMessage());
+            throw new Exception(e.getMessage());
         }
     }
 
     @Override
-    public void update(Country country) {
+    public void update(Country country) throws Exception {
         Transaction transaction = null;
         try (Session session = HibernateUntil.getSessionFactory().openSession()) {
             transaction = session.getTransaction();
@@ -42,12 +41,12 @@ public class CountryDAO implements DAO<Long, Country> {
             if (transaction != null) {
                 transaction.rollback();
             }
-            System.out.println(e.getMessage());
+            throw new Exception(e.getMessage());
         }
     }
 
     @Override
-    public void delete(Country country) {
+    public void delete(Country country) throws Exception {
         Transaction transaction = null;
         try (Session session = HibernateUntil.getSessionFactory().openSession()) {
             transaction = session.getTransaction();
@@ -59,12 +58,12 @@ public class CountryDAO implements DAO<Long, Country> {
             if (transaction != null) {
                 transaction.rollback();
             }
-            System.out.println(e.getMessage());
+            throw new Exception(e.getMessage());
         }
     }
 
     @Override
-    public Country getById(Long id) {
+    public Country getById(Long id) throws Exception {
         Transaction transaction = null;
         try (Session session = HibernateUntil.getSessionFactory().openSession()) {
             transaction = session.getTransaction();
@@ -77,8 +76,7 @@ public class CountryDAO implements DAO<Long, Country> {
             if (transaction != null) {
                 transaction.rollback();
             }
-            System.out.println(e.getMessage());
-            return null;
+            throw new Exception(e.getMessage());
         }
     }
 }

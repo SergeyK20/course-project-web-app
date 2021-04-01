@@ -83,6 +83,10 @@ public class Film {
         this.countries = countries;
     }
 
+    public Long getIdFilm() {
+        return idFilm;
+    }
+
     public void setIdFilm(Long idFilm) {
         this.idFilm = idFilm;
     }
@@ -93,14 +97,6 @@ public class Film {
 
     public void setActors(Set<Actor> actors) {
         this.actors = actors;
-    }
-
-    public long getIdFilm() {
-        return idFilm;
-    }
-
-    public void setIdFilm(long idFilm) {
-        this.idFilm = idFilm;
     }
 
     public String getNameFilm() {
